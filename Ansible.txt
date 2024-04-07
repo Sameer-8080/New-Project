@@ -1,0 +1,146 @@
+A1
+ubuntu@ip-172-31-8-78:~$ cat assignment1.yaml 
+---
+- name: Installing Java 
+  hosts: Slave1
+  become: true
+  tasks:
+  - name: installing Java in Slave1
+    apt: name=openjdk-11-jdk update_cache=true state=latest
+- name: Installing Mysql
+  hosts: Slave2
+  become: true
+  tasks:
+  - name: installing Mysql in Slave2
+    apt: name=mysql-server update_cache=true state=latest
+ubuntu@ip-172-31-8-78:~$ history 
+    1  sudo apt update
+    2  sudo apt install software-properties-common
+    3  sudo add-apt-repository --yes --update ppa:ansible/ansible
+    4  sudo apt install ansible
+    5  ssh-keygen
+    6  cd .ssh/
+    7  ls
+    8  sudo cat id_rsa.pub 
+    9  cd
+   10  cd /etc/ansible/
+   11  ls
+   12  cd /etc/ansible/
+   
+   
+   ls
+   13  ls
+   14  sudo nano hosts 
+   15  ansible -m ping all
+   16  cd
+   17  sudo nano play.yaml
+   18  sudo nano assignment1.yaml
+   19  ansible-playbook assignment1.yaml --syntax-check
+   20  ansible-playbook assignment1.yaml --check
+   21  sudo nano assignment1.yaml
+   22  ansible-playbook assignment1.yaml 
+   23  sudo nano assignment1.yaml
+   24  ansible-playbook assignment1.yaml 
+   25  cat assignment1.yaml
+A2
+script
+ubuntu@ip-172-31-8-78:~$ cat assignment2.*
+echo "This text has been added by custom script" > /tmp/1.txt
+
+
+---
+- name: executin script on Slaves
+  hosts: all
+  become: true
+  tasks:
+  - name: executing assignment2.sh
+    script: assignment2.sh
+    
+   29  sudo nano assignment2.yaml 
+   30  ls
+   31  sudo nano assignment2.sh
+   32  cat assignment2.yaml 
+   33  ls
+   34  sudo nano assignment2.sh
+   35  ansible-playbook assignment2.yaml --syntax-check
+   36  ansible-playbook assignment2.yaml --check
+   37  ansible-playbook assignment2.yaml
+   38  cat assignment2.*
+   
+A3
+ubuntu@ip-172-31-8-78:~$ cat /etc/ansible/roles/nginx/tasks/install.yaml 
+---
+- name: installing nginx
+  apt: name=nginx state=latest
+ubuntu@ip-172-31-8-78:~$ cat /etc/ansible/roles/nginx/tasks/main.yml 
+---
+# tasks file for nginx
+- include_tasks: install.yaml
+ubuntu@ip-172-31-8-78:~$ cat /etc/ansible/roles/apache/tasks/install.yaml 
+---
+- name: installing apache2
+  apt: name=apache2 state=latest
+ubuntu@ip-172-31-8-78:~$ cat /etc/ansible/roles/apache/tasks/main.yaml 
+cat: /etc/ansible/roles/apache/tasks/main.yaml: No such file or directory
+ubuntu@ip-172-31-8-78:~$ cat /etc/ansible/roles/apache/tasks/main.yml 
+---
+# tasks file for apache
+- include_tasks: install.yaml
+ubuntu@ip-172-31-8-78:~$ cat assignment3.yaml 
+---
+- name: Installing nginx
+  hosts: Slave1
+  become: true
+  roles:
+  - nginx  
+- name: Installing apache2
+  hosts: Slave2
+  become: true
+  roles:
+  - apache
+ubuntu@ip-172-31-8-78:~$
+   65  sudo nano assignment3.yaml
+   66  ls
+   67  sudo nano assignment
+   68  sudo nano assignment3.yaml.save 
+   69  ls
+   70  mv assignment3.yaml.save assignment3.yaml
+   71  ls
+   72  ansible-playbook assignment3.yaml -syntax-check
+   73  ansible-playbook assignment3.yaml --syntax-check
+   74  cat assignment3.yaml 
+   75  sudo cat assignment3.yaml 
+   76  sudo rm assignment3.yaml 
+   77  sudo nano assignment3.yaml
+   78  ansible-playbook assignment3.yaml --syntax-check
+   79  ansible-playbook assignment3.yaml --check
+   80  ansible-playbook assignment3.yaml
+A5
+ubuntu@ip-172-31-8-78:~$ cat assignment5.yaml 
+---
+- name: Installing Java
+  hosts: test
+  become: true
+  roles:
+  - java
+- name: Installing MySQL
+  hosts: prod
+  become: true
+  roles:
+  - mysql
+ubuntu@ip-172-31-8-78:~$ cat /etc/ansible/roles/java/tasks/install.yaml
+---
+- name: installing Java in Slave1
+  apt: name=openjdk-11-jdk update_cache=true state=latest
+ubuntu@ip-172-31-8-78:~$ cat /etc/ansible/roles/java/tasks/main.yml 
+---
+# tasks file for java
+- include_tasks: install.yaml
+ubuntu@ip-172-31-8-78:~$ cat /etc/ansible/roles/mysql/tasks/install.yaml
+---
+- name: installing Mysql in Slave2
+  apt: name=mysql-server update_cache=true state=latest
+ubuntu@ip-172-31-8-78:~$ cat /etc/ansible/roles/mysql/tasks/main.yml
+---
+# tasks file for mysql
+- include_tasks: install.yaml
